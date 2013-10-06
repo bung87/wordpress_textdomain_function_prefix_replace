@@ -5,4 +5,4 @@ Usually a theme folder name is same as textdomain and function prefix.
 
  Usage:  
  
- >./wordpress_textdomain_replace.py <source directory> <your textdomain>
+ > ./wordpress_textdomain_replace.py &lsaquo;source directory> &lsaquo;your textdomain>
