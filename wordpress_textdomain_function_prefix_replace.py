@@ -17,11 +17,21 @@ info="""
            --version : Prints the version number
            --help    : Display this help
 """
+def copyd(src, dst):
+    import shutil
+    try:
+        shutil.copytree(src, dst)
+    except OSError as exc: # python >2.5
+        if exc.errno == errno.ENOTDIR:
+            shutil.copy(src, dst)
+        else: raise
 def main(dn,td):
 	dd=os.path.join(os.getcwd(),td)
-	os.mkdir(dd,755)
+
+	# os.mkdir(dd,755)
 	pa = re.compile("(_[_e]\([^']*'[^']+',[^']*)'([\w]+)'")
 	p = os.path.join(os.getcwd(),dn)
+	copyd(p,dd)
 	l = os.listdir(p)
 	pl = list(filter((lambda f:os.path.join(p,f).endswith('.php')),l))
 	for x in pl:
@@ -34,6 +44,8 @@ def main(dn,td):
 			fr.close()
 		rt=pa.sub(lambda m:m.group(1)+"'"+td+"'",t)
 		rt=rt.replace(dn+'_',td+'_')
+		rt=rt.replace("'"+dn+"'","'"+td+"'")
+		rt=rt.replace('"'+dn+'"','"'+td+'"')
 		dp=os.path.join(dd,x)
 		fw=open(dp,"w")
 		try:
